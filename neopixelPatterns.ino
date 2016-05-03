@@ -174,44 +174,7 @@ static void wash(Colour c) {
     strip.setPixelColor( i, dim.red, dim.green, dim.blue );
 }
 
-static void randomFairy(Colour c) {
-    
-  static uint8_t index = 0;
-  static uint8_t nextindex = 1;
-  static uint16_t sequence = 0;
 
-  Colour dim;
-
-  //fade out points[nextindex]
-  dim = fade(c, map(sequence, 0, SPEED, 255, 16 ) );
-  strip.setPixelColor( points[nextindex], dim.red, dim.green, dim.blue );
-  
-  //fade in points[index]    
-  dim = fade(c, map(sequence, 0, SPEED, 16, 255 ) );
-  strip.setPixelColor( points[index], dim.red, dim.green, dim.blue );  
-    
-  //Ensure all the other points are also set. We need to do this incase we randomly pick the same point twice!
-  
-  for(int i=0;i<POINTS;i++) {
-    if(i==index || i==nextindex) continue;
-    strip.setPixelColor( points[i], c.red, c.green, c.blue );
-  }
-  
-  sequence++;
-  if( sequence > SPEED )
-    sequence = 0;
-  if( sequence == 0 ) {
-    points[nextindex] = random(0, strip.numPixels()); //{random(0, strip.numPixels()), c };
-    Serial.print("Fairy ");
-    Serial.print(nextindex);
-    Serial.print(" is ");
-    Serial.println(points[nextindex]);
-    index = nextindex;
-    nextindex++;
-    if( nextindex == POINTS ) nextindex = 0;
-  }      
-}
- 
 
 //Note that the strip is 2xWIDTH wide, half faded in, half faded out.
 #define WIDTH 16
